@@ -12,6 +12,7 @@
 display: flex;
 justify-content: space-around;
 }
-.right {
-  text-align: right;
+
+.cart-button {
+  background-color: brown
 }
