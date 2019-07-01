@@ -1,18 +1,74 @@
+.intro img{
+  width: 60%;
+  height: 60%;
+  display: block;
+  margin: 40px auto;
+}
+
 .items {
   margin: 40px auto;
   width: 80%;
 }
 
-
-.image:hover {
+.image:not(.tiny):hover, div.name:hover {
   cursor: pointer;
 }
 
-.test {
-display: flex;
-justify-content: space-around;
+.ui.celled.table.table-header {
+  text-align: center;
+}
+.cart-item, .header-item {
+  display: flex;
+  width: 60%;
 }
 
-.cart-button {
-  background-color: brown
+.cart-quant, .header-quant, .cart-sum, .header-sum  {
+  width: 20%;
 }
+
+.ui.cards {
+  justify-content: center;
+}
+
+.cart-item h3, .cart-quant i{
+ margin: auto
+}
+
+.cart-quant .icon:hover {
+  cursor: pointer;
+}
+
+.ui.table td.cart-total {
+  text-align: center;
+}
+
+.modal .header {
+  text-align: center;
+}
+
+.cart-mini {
+  position: absolute;
+  left: 42px;
+  top: 5px;;
+}
+
+.mini-cart.disable, .sign-in.disable, .ui.search.disable, .items.disable {
+  display: none;
+}
+
+.search {
+ margin: 30px;
+ text-align: center;
+}
+
+.search >.input > .prompt {
+  width: 400px;
+  border: 2px solid rgba(34,36,38,.15);
+  margin: 20px auto;
+}
+
+.ui.fluid.search {
+  width: 400px;
+  margin: 20px auto;
+}
+

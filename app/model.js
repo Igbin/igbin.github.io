@@ -1,20 +1,32 @@
 import Storage from './main.js';
 import AnimalController  from './controller.js';
+import CartModel  from './cartmodel.js';
 
 export default class AnimalModel {
 
   static getAnimals(controller){
-    fetch('data/animals.json')
-    .then((response)=> {
-	      return response.json();  
-    }).then((json)=> {
-      Storage.data = json;
-      controller.buildCards(json);
-    }).then(()=>{
-      AnimalController.listener()
-    })
-  }
 
+    if(localStorage.getItem("data")) {
+       Storage.data =  JSON.parse(localStorage.getItem("data"));
+       controller.buildCards(Storage.data);
+       AnimalController.listener();
+       CartModel.init();
+    } else {
+      fetch('data/animals.json')
+      .then((response)=> {
+	      return response.json();  
+      }).then((json)=> {
+        localStorage.setItem("data", JSON.stringify(json));
+        Storage.data = json;
+        controller.buildCards(json);
+      }).then(()=>{
+        AnimalController.listener()
+      }).then(()=>{
+        CartModel.init();
+      })
+    }
+  }
+  
   static getVocabluary(){
     fetch('data/animalsRU.json')
     .then((response)=> {
@@ -25,7 +37,9 @@ export default class AnimalModel {
   }
 
 }
-  
+
+
+
 // class AnimalFactory{
 //   create (type, obj) {
 //     if (type === 'bird') {
