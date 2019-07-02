@@ -93,26 +93,31 @@ export default class AnimalController {
       s.split(' ').forEach(e => el.addEventListener(e, fn, false));
     };
 
-    addListenerMulti(document.querySelector('.ui.search'), 'click keyup', () =>{
-        setTimeout(()=>{
-          Array.from(document.querySelectorAll('a.result')).forEach(el => {
-            el.addEventListener('click', this.searchFilter)
-          }); 
-          Array.from(document.querySelectorAll('div.name')).forEach(el => {
-            el.addEventListener('click', this.searchFilter)
-          }); 
-        }, 500)
+    addListenerMulti(document.querySelector('.ui.search'), 'click keyup', (e) =>{
+      if(document.querySelector('.prompt').value == "" && e == 'keyup') {
+        document.querySelector('.ui.special.cards').innerHTML = '';
+        return AnimalController.buildCards(Storage.data);
+      };
+      if(event.target.classList.contains('title') || event.target.classList.contains('name')){
+        AnimalController.searchFilter();
+      }
     });
 
+    Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
+      el.onchange =  this.filter;
+    }); 
+
+    document.querySelector('.form').addEventListener('submit', this.buy);
 
     $('.ui.dropdown').dropdown();
+    $('.ui.checkbox').checkbox();
   }
 
   
   static signIn() {
     $('.intro').transition('fade down');
 
-    Array.from(document.querySelectorAll('.sign-in, .mini-cart, .ui.search, .items')).forEach((el)=>{
+    Array.from(document.querySelectorAll('.sign-in, .mini-cart, .ui.search, .ui.grid, a.item.header-but')).forEach((el)=>{
       el.classList.toggle('disable');
     })
 
@@ -152,15 +157,14 @@ export default class AnimalController {
 
   static searchFilter() {
     let tempdata = [];
-
     Storage.data.forEach(el=>{
-      if(this.tagName === 'A') {
-        if(el.breed == this.innerText) {
+      if(event.target.classList.contains('title')) {
+        if(el.breed == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
           View.renderCard(el);
         }
       } else {
-        if(el.type == this.innerText) {
+        if(el.type == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
           tempdata.push(el);
         }
@@ -169,9 +173,32 @@ export default class AnimalController {
     AnimalController.buildCards(tempdata);
   }  
 
+  static filter() {
+    let tempdata  = [];
+    document.querySelector('.prompt').value = '';
+
+    if(this.name == 'all' && this.checked == true) {
+      document.querySelector('.ui.special.cards').innerHTML = '';
+      AnimalController.buildCards(Storage.data); 
+      Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
+        el.name != 'all' ? el.checked = false : false;
+      }); 
+    } else {
+    Storage.data.forEach(el=>{
+      document.querySelector('input[name=all]').checked = false;
+      for(let i = 0; i <  document.querySelectorAll('input:checked').length; i++) {
+        if(el.type ==  document.querySelectorAll('input:checked')[i].name) {
+          tempdata.push(el);
+        }
+      }
+    });
+      document.querySelector('.ui.special.cards').innerHTML = '';
+      AnimalController.buildCards(tempdata); 
+  }
+  }
+
   static buy() {
-    console.log('sdsd');
-    
+    alert('congratulations!')  
   }
 
 } 

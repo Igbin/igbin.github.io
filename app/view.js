@@ -28,7 +28,7 @@ export  class View {
     for(let key in card) {
       if(key != 'price' && key != 'count' && key != 'breed' && key != 'id' && key!= 'img'
         && key != 'цена' && key != 'количество' && key != 'порода' && key != 'цiна' && key != 'кiлькiсть') {
-        abils += `<p>${key}:${card[key]}</p>`
+        abils += `<p>${key}:  ${card[key]}</p>`
       }
     }
     parentDiv.classList.add('card');
@@ -90,7 +90,7 @@ export class CartView {
 
 
     props+= ` <tr><td class="cart-item"><img src='${card.img}' class="ui tiny image"><h3>${type} ${breed}</h3></td>
-                  <td class="center aligned cart-quant"> <i class="plus icon ${disabledPlus}" data-id ="${card.id}"></i><span>${CartModel.cart[card.id]}</span> <i class="${icon} icon" data-id ="${card.id}"></i></td> 
+                  <td class="center aligned cart-quant"> <i class="plus icon large ${disabledPlus}" data-id ="${card.id}"></i><span> ${CartModel.cart[card.id]} </span> <i class="${icon} icon large" data-id ="${card.id}"></i></td> 
                   <td class="center aligned cart-sum"> <h3>${price * CartModel.cart[card.id]} $</h3></td>
               </tr>`
 

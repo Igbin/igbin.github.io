@@ -33,9 +33,6 @@ export default class CartController {
   static buildCarts() {
     let total = 0;
     let totalRow = document.createElement('tr');
-    let buyButton = document.createElement('button');
-    buyButton.classList.add('fluid', 'ui', 'button' , 'buy-button');
-    buyButton.appendChild(document.createTextNode('BUY'))
 
     document.querySelector('.my-modal').innerHTML = '';
     Storage.data.forEach(el=>{
@@ -45,20 +42,29 @@ export default class CartController {
       }
     })
 
-    document.querySelector('.modal .header').innerHTML = 'Cart';
     totalRow.innerHTML = `<td colspan = '2'><h2>Total:</h2></td><td class='cart-total'><h2>${total}$</h2></td>`
 
     if(document.querySelectorAll('.table').length > 1) {
+      // document.querySelector('.modal .header').innerText = 'cart';
       document.querySelectorAll('.table')[document.querySelectorAll('.table').length-1].appendChild(totalRow);
-      document.querySelector('.my-modal').appendChild(buyButton);
-      document.querySelector('.buy-button').addEventListener('click', AnimalController.buy);
+      document.querySelector('.buy-button').classList.remove('disable');
+      document.querySelector('.table.table-header').classList.remove('disable');
     } else {
-      document.querySelector('.modal .header').innerHTML = 'cart is empty';
+      document.querySelector('.buy-button').classList.add('disable');
+      document.querySelector('.table.table-header').classList.add('disable');
+      document.querySelector('.modal.first .my-modal').innerHTML = '<h2 class="empty-cart">cart is empty</h2>';
     }
 
-    // $('.ui.longer.modal').modal({blurring: true}).modal('show');
-    $('.coupled.modal').modal({allowMultiple: false});
-    $('.second.modal').modal('attach events', '.first.modal .button');
+    $('.modal.first').modal({allowMultiple: false,
+      cosable: true,
+      onDeny    : function(){
+       $('.modal.firtst').modal('toggle')
+      },
+      onApprove : function() {
+        $('.modal.firtst').modal('toggle')
+        $('.modal.second').modal('toggle')
+      }});
+    // $('.second.modal').modal('attach events', '.first.modal .button');
     $('.first.modal').modal('show');
   }
 }
