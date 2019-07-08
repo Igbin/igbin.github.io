@@ -1,17 +1,8 @@
 import AnimalController  from './controller.js';
-import AnimalModel  from './model.js';
-import CartModel  from './cartmodel.js';
 
 
-export default class Storage {
-  static data = [];
-  static vocabluary = {};
-  static lang  = 'en';
+document.addEventListener('DOMContentLoaded', () => {
+  const controller = new AnimalController();
+  controller.init();
+});
 
-  static init() {
-    AnimalController.init();
-    AnimalModel.getVocabluary();
-  }
-}
-
-document.addEventListener('DOMContentLoaded', Storage.init);

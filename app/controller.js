@@ -1,131 +1,113 @@
-import Storage from './main.js';
 import AnimalModel from './model.js';
 import {View, CartView} from './view.js';
-import CartModel from './cartmodel.js';
-import CartController from './cartcontroller.js';
 
 
 export default class AnimalController {
-  
 
-  static init() {
-    AnimalModel.getAnimals(this);
+  constructor() {
+    this.model = new AnimalModel(this);
+    this.view = new View(this);
+    this.cartView = new CartView(this);
+  }
+  
+  init() {
+    this.model.getVocabluary();
+    this.model.getAnimals();
+    this.view.addListeners();
   }
 
 
-  static buildCards(cards){
+  buildCards(cards){
     // let animal = new AnimalFactory();
     cards.forEach((el)=>{
       // View.renderCard(animal.create(el.type, el));
-    View.renderCard(el);
+      this.view.renderCard(el);
     });
   }
 
-  static tranlateData(obj){
-    let newObj  = {};
- 
-    for(let key in obj){
-      if(key == 'id' || key == 'img') {
-        newObj[key] = obj[key];
-      } else {
-        newObj[this.convertToLang(key)] = this.convertToLang(obj[key]);
-      }
-    }
-    return newObj;
-  } 
 
-  static convertToLang(info){
-    if(!Array.isArray(info)) {
-      return (isNaN(1 * info))? Storage.vocabulary[info][Storage.lang]: info;
-    } else {
-      return info.map(el =>{
-        return el = Storage.vocabulary[el][Storage.lang];
-      })
-    }
+  renderCart() {
+    let items = [];
+    let total = 0;
+
+    this.model.data.forEach(el=>{
+      if(this.model.cart[el.id] != 0) {
+        items.push(el);
+        total = total + el.price * this.model.cart[el.id];
+       }
+    });
+    this.cartView.buildCarts(items, total);
   }
 
-  
-  static addToCart() {
 
-    CartModel.cart[this.dataset.id] += 1; 
-    localStorage.cart = JSON.stringify(CartModel.cart);
+  refreshCartIcon() {
+    this.cartView.refreshCartIcon(this.model.cart);
+  }
 
-    Storage.data.forEach(el=>{
-        if(el.id == this.dataset.id) {
-           el.count -= 1;
+
+  addToCart(id) {
+    this.model.cart[id] += 1; 
+    localStorage.cart = JSON.stringify(this.model.cart);
+    this.model.data.forEach(el=>{
+      if(el.id == id) {
+        el.count--;
+        localStorage.data = JSON.stringify(this.model.data);  
+        this.view.refreshQuantity(id, el.count);
+        this.refreshCartIcon();
+      }
+    });
+  }
+
+
+  changeCartOrders(direction) {
+    let dir = direction == 'plus' ? -1 : 1;
+
+    this.model.data.forEach(el=>{
+      if(el.id == event.target.dataset.id){
+        if(direction == 'plus' && el.count == 0) {
+          return;
         }
-
-          // if(CartModel.cart[key] !=0) {
-          //   CartView.renderCard(el)
-          // }
-        
-        // Array.from(document.querySelectorAll('div[dataset')).forEach(div => {
-        //   if(div.getAttribute('dataset') == this.dataset.id) {
-        //     div.innerHTML = '';
-        //   }
-        // })
-
-        // View.renderCard(el); 
-      
-    });
-    localStorage.data = JSON.stringify(Storage.data);
-    document.querySelector('.ui.special.cards').innerHTML = '';
-    AnimalController.buildCards(Storage.data);
-    CartView.refreshCart();
-  }
-
-
-  static listener(){
-    Array.from(document.querySelectorAll('.lang')).forEach(el => {
-      el.addEventListener('click', (e) => {
-      Storage.lang = event.target.dataset.lang;
-      document.querySelector('.lang-icon').innerHTML = Storage.lang;
-      document.querySelector('.ui.special.cards').innerHTML = '';
-      AnimalController.buildCards(Storage.data); 
-      })
-    });
-
-    document.querySelector('.myModale').addEventListener('click', CartController.buildCarts);
-    document.querySelector('.sign-in').addEventListener('click', this.signIn);
-    document.querySelector('.sign-out').addEventListener('click', this.signOut);
-
-    const addListenerMulti = (el, s, fn) => {
-      s.split(' ').forEach(e => el.addEventListener(e, fn, false));
-    };
-
-    addListenerMulti(document.querySelector('.ui.search'), 'click keyup', (e) =>{
-      if(document.querySelector('.prompt').value == "" && e == 'keyup') {
-        document.querySelector('.ui.special.cards').innerHTML = '';
-        return AnimalController.buildCards(Storage.data);
-      };
-      if(event.target.classList.contains('title') || event.target.classList.contains('name')){
-        AnimalController.searchFilter();
+        el.count = el.count + dir;
+        this.model.cart[el.id] = this.model.cart[el.id] - dir;
+        this.view.refreshQuantity(el.id, el.count)
       }
     });
+    
+    localStorage.cart = JSON.stringify(this.model.cart);
+    localStorage.data = JSON.stringify(this.model.data);
 
-    Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
-      el.onchange =  this.filter;
-    }); 
-
-    document.querySelector('.form').addEventListener('submit', this.buy);
-
-    $('.ui.dropdown').dropdown();
-    $('.ui.checkbox').checkbox();
+    document.querySelector('.my-modal').innerHTML = '';
+    this.renderCart();
+    this.refreshCartIcon(this.model.cart);
   }
 
-  
-  static signIn() {
-    $('.intro').transition('fade down');
 
-    Array.from(document.querySelectorAll('.sign-in, .mini-cart, .ui.search, .ui.grid, a.item.header-but')).forEach((el)=>{
-      el.classList.toggle('disable');
-    })
+  changeLang(language) {
+    this.model.lang = language;
+    document.querySelector('.ui.special.cards').innerHTML = '';
+    this.buildCards(this.model.data); 
+    document.querySelector('span.lang-icon').innerHTML = language;
+    this.prepareSearchData();
+  }
 
+
+  convertToLang(word){
+    if(!Array.isArray(word)) {
+      return (isNaN(1 * word))? this.model.vocabulary[word][this.model.lang]: word;
+    } else {
+      return word.map(el =>{
+        return el = this.model.vocabulary[el][this.model.lang];
+      });
+    }
+  }
+
+
+  prepareSearchData() {
     let searchData = [];
-    Storage.data.forEach(el=>{   
+    this.model.dataForSearch.forEach(el=>{   
       let searchObj = {}; 
-      searchObj.category = el.type;
-      searchObj.title = el.breed;
+      searchObj.category = this.convertToLang(el.type);
+      searchObj.title = this.convertToLang(el.breed);
       searchData.push(searchObj)
     });
 
@@ -135,56 +117,38 @@ export default class AnimalController {
     });
   }
 
-  static signOut() {
-    $('.ui.basic.test.modal').modal({
-      closable  : true,
-      blurring: true,
-      onDeny    : function(){
-       $('.ui.mini.test.modal').modal('toggle')
-      },
-      onApprove : function() {
-        AnimalController.clear();
-      }
-    }).modal('show');
-  }
 
-  static clear() {
-    localStorage.removeItem('cart');
-    localStorage.removeItem('data');
-    document.querySelector('.ui.special.cards').innerHTML = '';
-    Storage.init();
-  }
-
-  static searchFilter() {
-    let tempdata = [];
-    Storage.data.forEach(el=>{
-      if(event.target.classList.contains('title')) {
-        if(el.breed == event.target.innerText) {
+  searchFilter() {
+    let filterdata = [];
+    this.model.dataForSearch.forEach(el=>{
+      if(event.target.classList.contains('title') || event.target.tagName === 'A') {
+        if(this.convertToLang(el.breed) == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
-          View.renderCard(el);
+          this.view.renderCard(el);
         }
       } else {
-        if(el.type == event.target.innerText) {
+        if(this.convertToLang(el.type) == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
-          tempdata.push(el);
+          filterdata.push(el);
         }
       }
     });   
-    AnimalController.buildCards(tempdata);
+    this.buildCards(filterdata);
   }  
 
-  static filter() {
-    let tempdata  = [];
+
+   filter() {
+
     document.querySelector('.prompt').value = '';
 
     if(this.name == 'all' && this.checked == true) {
       document.querySelector('.ui.special.cards').innerHTML = '';
-      AnimalController.buildCards(Storage.data); 
+      this.buildCards(this.model.data); 
       Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
         el.name != 'all' ? el.checked = false : false;
       }); 
     } else {
-    Storage.data.forEach(el=>{
+    this.model.data.forEach(el=>{
       document.querySelector('input[name=all]').checked = false;
       for(let i = 0; i <  document.querySelectorAll('input:checked').length; i++) {
         if(el.type ==  document.querySelectorAll('input:checked')[i].name) {
@@ -194,11 +158,50 @@ export default class AnimalController {
     });
       document.querySelector('.ui.special.cards').innerHTML = '';
       AnimalController.buildCards(tempdata); 
-  }
+    }
+    return tempdata;
   }
 
-  static buy() {
-    alert('congratulations!')  
+
+  signOut() {
+    $('.ui.basic.test.modal').modal({
+      closable  : true,
+      blurring: true,
+      onDeny    : function(){
+       $('.ui.mini.test.modal').modal('toggle')
+      },
+      onApprove : () => {
+        this.clear();
+      }
+    }).modal('show');
+  }
+
+
+  clear() {
+    localStorage.removeItem('cart');
+    localStorage.removeItem('data');
+    document.querySelector('.ui.special.cards').innerHTML = '';
+    this.model.getAnimals();
+    document.querySelector('.prompt').value = '';
+    this.buildCards(this.model.data);
+  }
+
+  
+   buy() {
+    let toHistory = {};
+    toHistory.orders = this.cartView.order;
+    toHistory.name = document.querySelector('form')[0].value;
+    toHistory.phone = document.querySelector('form')[1].value;
+    toHistory.email = document.querySelector('form')[2].value;
+    toHistory.date = `${new Date().getDate()}, ${new Date().getMonth()}, ${new Date().getFullYear()},${new Date().toLocaleTimeString()}`
+
+    this.model.history.push(toHistory);
+    localStorage.history = JSON.stringify(this.model.history);
+    localStorage.data = JSON.stringify(this.model.data);
+    localStorage.removeItem('cart');
+    document.querySelector('.ui.special.cards').innerHTML = '';
+    this.buildCards(this.model.data); 
+
   }
 
 } 

@@ -1,38 +1,56 @@
-import Storage from './main.js';
-import AnimalController  from './controller.js';
-import CartModel  from './cartmodel.js';
 
 export default class AnimalModel {
 
-  static getAnimals(controller){
+  constructor(controller) {
+    this.data = [];
+    this.vocabulary = {};
+    this.lang = 'en';
+    this.cart = {};
+    this.dataForSearch = [];
+    this.history = localStorage.getItem("history") ?  JSON.parse(localStorage.getItem("history")) : [];
+    this.controller = controller;
+  }
 
+
+   getAnimals(){
     if(localStorage.getItem("data")) {
-       Storage.data =  JSON.parse(localStorage.getItem("data"));
-       controller.buildCards(Storage.data);
-       AnimalController.listener();
-       CartModel.init();
+       this.data =  JSON.parse(localStorage.getItem("data"));
+      //  this.controller.buildCards(this.data);
+       this.initCart();
+       this.dataForSearch = this.data;
     } else {
       fetch('data/animals.json')
       .then((response)=> {
-	      return response.json();  
+	        return response.json();  
       }).then((json)=> {
         localStorage.setItem("data", JSON.stringify(json));
-        Storage.data = json;
-        controller.buildCards(json);
+        this.data = json;
+        this.dataForSearch = json;
+        // this.controller.buildCards(json);
       }).then(()=>{
-        AnimalController.listener()
-      }).then(()=>{
-        CartModel.init();
+        this.initCart();
       })
-    }
+    }  
   }
   
-  static getVocabluary(){
+  initCart() {
+    if(localStorage.getItem("cart")) {
+      this.cart = JSON.parse(localStorage.getItem("cart"));
+    } else {
+      this.data.forEach(el=>{
+          this.cart[el.id] = 0;
+      });
+      localStorage.setItem('cart', JSON.stringify(this.cart));
+    }
+    this.controller.refreshCartIcon();
+  }
+  
+   getVocabluary(){
     fetch('data/animalsRU.json')
     .then((response)=> {
         return response.json();  
     }).then((json)=> {
-      Storage.vocabulary = json[0]
+      this.vocabulary = json[0]
     })
   }
 
