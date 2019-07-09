@@ -1,256 +1,339 @@
 [
   {
     "true": {
+      "en": "yes",
       "ru": "да",
       "ua": "так"
     },
     "false": {
+      "en": "no",
       "ru": "нет",
       "ua": "нi"
     },
     "type": {
+      "en": "type",
       "ru": "тип",
       "ua": "тип"
     },
     "bird": {
+      "en": "bird",
       "ru": "птица",
       "ua": "птах"
     },
     "fish": {
+      "en": "fish",
       "ru": "рыба",
       "ua": "риба"
     },
     "cat": {
+      "en": "cat",
       "ru": "кошка",
       "ua": "кiшка"
     },
     "dog": {
+      "en": "dog",
       "ru": "собака",
       "ua": "пес"
     },
     "breed": {
+      "en": "breed",
       "ru": "порода",
       "ua": "порода"
     },
     "color": {
+      "en": "color",
       "ru": "цвет",
       "ua": "колiр"
     },
     "count": {
+      "en": "count",
       "ru": "количество",
       "ua": "кiлькiсть"
     },
     "price": {
+      "en": "price",
       "ru": "цена",
       "ua": "цiна"
     },
     "age": {
+      "en": "age",
       "ru": "возвраст",
       "ua": "вiк"
     },
     "weigth": {
+      "en": "weigth",
       "ru": "вес",
       "ua": "вага"
     },
     "isPredator": {
+      "en": "isPredator",
       "ru": "хищник",
       "ua": "хижак"
     },
     "gender": {
+      "en": "gender",
       "ru": "пол",
       "ua": "стать"
     },
     "male": {
+      "en": "male",
       "ru": "муж",
       "ua": "чол"
     },
     "female": {
+      "en": "female",
       "ru": "жен",
       "ua": "жiн"
     },
     "fur": {
+      "en": "fur",
       "ru": "мех",
       "ua": "мiх"
     },
     "short": {
+      "en": "short",
       "ru": "короткий",
       "ua": "короткий"
     },
     "medium": {
+      "en": "medium",
       "ru": "средний",
       "ua": "середнiй"
     },
     "long": {
+      "en": "long",
       "ru": "длиный",
       "ua": "довгий"
     },
     "pedigree": {
+      "en": "pedigree",
       "ru": "родословная",
       "ua": "родовід"
     },
     "cupping": {
+      "en": "cupping",
       "ru": "купированность",
       "ua": "купованiсть"
     },
     "short_sightedness": {
+      "en": "short_sightedness",
       "ru": "коротколапость",
       "ua": "коротколапiсть"
     },
     "specialization": {
+      "en": "specialization",
       "ru": "специализация",
       "ua": "спецiалiзацiя"
     },
     "hunter": {
+      "en": "hunter",
       "ru": "охотник",
       "ua": "мисливець"
     },
     "decorative": {
+      "en": "decorative",
       "ru": "декоративная",
       "ua": "декоративна"
     },
     "isFly": {
+      "en": "isFly",
       "ru": "летает",
       "ua": "лiтае"
     },
     "isSpeak": {
+      "en": "isSpeak",
       "ru": "разговаривает",
       "ua": "розмовляе"
     },
     "isSing": {
+      "en": "isSing",
       "ru": "поет",
       "ua": "спiвае"
     },
     "isFold": {
+      "en": "isFold",
       "ru": "вислоухость",
       "ua": "висловухий"
     },
     "isFreshWater": {
+      "en": "isFreshWater",
       "ru": "пресновдоность",
       "ua": "прiсноводна"
     },
     "deepLevel": {
+      "en": "deepLevel",
       "ru": "зональность",
       "ua": "зональнiсть"
     },
     "up": {
+      "en": "up",
       "ru": "верх",
       "ua": "вверх"
     },
     "middle": {
+      "en": "middle",
       "ru": "средина",
       "ua": "середина"
     },
     "down": {
+      "en": "down`",
       "ru": "глубоко`",
       "ua": "глибоко"
     },
     "white": {
+      "en": "white",
       "ru": "белый",
       "ua": "бiлий"
     },
     "black": {
+      "en": "black",
       "ru": "черный",
       "ua": "чорний"
     },
     "grey": {
+      "en": "grey",
       "ru": "серый",
       "ua": "сiрий"
     },
     "green": {
+      "en": "green",
       "ru": "зеленый",
       "ua": "зелений"
     },
     "red": {
+      "en": "red",
       "ru": "красный",
       "ua": "червоний"
     },
     "brown": {
+      "en": "brown",
       "ru": "кориченвый",
       "ua": "коричневий"
     },
     "yellow": {
+      "en": "yellow",
       "ru": "желтый",
       "ua": "жовтий"
     },
     "Shepherd": {
+      "en": "Shepherd",
       "ru": "Овчарка",
       "ua": "Вiвчарка"
     },
     "Pug": {
+      "en": "Pug",
       "ru": "Мопс",
       "ua": "Мопс"
     },
     "Poodle": {
+      "en": "Poodle",
       "ru": "Пудель",
       "ua": "Пудель"
     },
     "Boxer": {
+      "en": "Boxer",
       "ru": "Боксер",
       "ua": "Боксер"
     },
     "Chihuahua": {
+      "en": "Chihuahua",
       "ru": "Чиххуахуа",
       "ua": "Чиххуахуа"
     },
     "Persian": {
+      "en": "Persian",
       "ru": "Персидский",
       "ua": "Персидський"
     },
     "Siamese": {
+      "en": "Siamese",
       "ru": "Сиамский",
       "ua": "Сiамський"
     },
     "Scottish": {
+      "en": "Scottish",
       "ru": "Шотландский",
       "ua": "Шотландський"
     },
     "MaineCoon": {
+      "en": "MaineCoon",
       "ru": "Мэйн Кун",
       "ua": "Мейн Кун"
     },
     "Sphinx": {
+      "en": "Sphinx",
       "ru": "Сфинкс",
       "ua": "Сфiнкс"
     },
     "Cockatoo": {
+      "en": "Cockatoo",
       "ru": "Какаду",
       "ua": "Какаду"
     },
     "Canary": {
+      "en": "Canary",
       "ru": "Канарейка",
       "ua": "Канарiйка"
     },
     "Bittern": {
+      "en": "Bittern",
       "ru": "Выпь",
       "ua": "Випь"
     },
     "Wavy": {
+      "en": "Wavy",
       "ru": "Волнистый",
       "ua": "Хвилястий"
     },
     "Macaw": {
+      "en": "Macaw",
       "ru": "Макао",
       "ua": "Макао"
     },
     "Piranha": {
+      "en": "Piranha",
       "ru": "Пиранья",
       "ua": "Пiраня"
     },
     "Aravana": {
+      "en": "Aravana",
       "ru": "Аравана",
       "ua": "Аравана"
     },
     "Pike": {
+      "en": "Pike",
       "ru": "Щука",
       "ua": "Щука"
     },
     "Polyperus": {
+      "en": "Polyperus",
       "ru": "Полиперус",
       "ua": "Полиперус"
     },
     "Perch": {
+      "en": "Perch",
       "ru": "Окунь",
       "ua": "Окунь"
+    },
+    "Sold": {
+      "en": "Sold",
+      "ru": "Продано",
+      "ua": "Продано"
+    },
+    "cart is empty":{
+      "en": "cart is empty",
+      "ru": "Корзина пуста",
+      "ua": "Кошик пустий"
+    },
+    "Add to cart":{
+      "en": "Add to cart",
+      "ru": "Добавить в корзину",
+      "ua": "Добавити у кошик"
+    },
+    "Total":{
+      "en": "Total",
+      "ru": "Всего",
+      "ua": "Усього"
     }
   }
 ]

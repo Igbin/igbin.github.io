@@ -1,5 +1,6 @@
 import AnimalModel from './model.js';
-import {View, CartView} from './view.js';
+import {View} from './view.js';
+import CartView from './cartview.js';
 
 
 export default class AnimalController {
@@ -8,20 +9,20 @@ export default class AnimalController {
     this.model = new AnimalModel(this);
     this.view = new View(this);
     this.cartView = new CartView(this);
+    this.init();
   }
   
   init() {
-    this.model.getVocabluary();
     this.model.getAnimals();
     this.view.addListeners();
+    this.model.prepareSearchData();
+    this.renderFilters();
   }
 
 
-  buildCards(cards){
-    // let animal = new AnimalFactory();
+  buildCards(cards, vocabulary, lang){
     cards.forEach((el)=>{
-      // View.renderCard(animal.create(el.type, el));
-      this.view.renderCard(el);
+      this.view.renderCard(el, vocabulary, lang);
     });
   }
 
@@ -30,32 +31,28 @@ export default class AnimalController {
     let items = [];
     let total = 0;
 
-    this.model.data.forEach(el=>{
-      if(this.model.cart[el.id] != 0) {
+    this.model.getData().forEach(el=>{
+      if(this.model.getCart()[el.id] != 0) {
         items.push(el);
-        total = total + el.price * this.model.cart[el.id];
+        total = total + el.price * this.model.getCart()[el.id];
        }
     });
-    this.cartView.buildCarts(items, total);
+    this.cartView.buildCarts(items, total, this.model.vocabulary, this.model.lang);
   }
 
 
   refreshCartIcon() {
-    this.cartView.refreshCartIcon(this.model.cart);
+    this.cartView.refreshCartIcon(this.model.getCart());
   }
 
 
   addToCart(id) {
-    this.model.cart[id] += 1; 
-    localStorage.cart = JSON.stringify(this.model.cart);
-    this.model.data.forEach(el=>{
-      if(el.id == id) {
-        el.count--;
-        localStorage.data = JSON.stringify(this.model.data);  
-        this.view.refreshQuantity(id, el.count);
-        this.refreshCartIcon();
-      }
+    this.model.addToCart(id);
+    this.model.getData().forEach(el=>{
+      if(el.id == id) 
+      this.view.refreshQuantity(id, el.count, this.model.vocabulary, this.model.lang);
     });
+    this.refreshCartIcon();
   }
 
 
@@ -69,7 +66,7 @@ export default class AnimalController {
         }
         el.count = el.count + dir;
         this.model.cart[el.id] = this.model.cart[el.id] - dir;
-        this.view.refreshQuantity(el.id, el.count)
+        this.view.refreshQuantity(el.id, el.count, this.model.vocabulary, this.model.lang)
       }
     });
     
@@ -78,91 +75,85 @@ export default class AnimalController {
 
     document.querySelector('.my-modal').innerHTML = '';
     this.renderCart();
-    this.refreshCartIcon(this.model.cart);
+    this.refreshCartIcon();
   }
+
 
 
   changeLang(language) {
     this.model.lang = language;
     document.querySelector('.ui.special.cards').innerHTML = '';
-    this.buildCards(this.model.data); 
+    this.buildCards(this.model.dataForSearch, this.model.vocabulary, this.model.lang); 
     document.querySelector('span.lang-icon').innerHTML = language;
-    this.prepareSearchData();
+    this.model.prepareSearchData();
+    this.renderFilters();
+    localStorage.setItem('lang', this.model.lang)
   }
 
-
-  convertToLang(word){
-    if(!Array.isArray(word)) {
-      return (isNaN(1 * word))? this.model.vocabulary[word][this.model.lang]: word;
-    } else {
-      return word.map(el =>{
-        return el = this.model.vocabulary[el][this.model.lang];
-      });
-    }
-  }
-
-
-  prepareSearchData() {
-    let searchData = [];
-    this.model.dataForSearch.forEach(el=>{   
-      let searchObj = {}; 
-      searchObj.category = this.convertToLang(el.type);
-      searchObj.title = this.convertToLang(el.breed);
-      searchData.push(searchObj)
-    });
-
-    $('.ui.search').search({
-      type: 'category',
-      source: searchData
-    });
-  }
 
 
   searchFilter() {
     let filterdata = [];
     this.model.dataForSearch.forEach(el=>{
       if(event.target.classList.contains('title') || event.target.tagName === 'A') {
-        if(this.convertToLang(el.breed) == event.target.innerText) {
+        if(this.model.vocabulary[el.breed][this.model.lang] == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
-          this.view.renderCard(el);
+          this.view.renderCard(el, this.model.vocabulary, this.model.lang);
         }
       } else {
-        if(this.convertToLang(el.type) == event.target.innerText) {
+        if(this.model.vocabulary[el.type][this.model.lang] == event.target.innerText) {
           document.querySelector('.ui.special.cards').innerHTML = '';
           filterdata.push(el);
         }
       }
+    });
+    Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
+      el.checked = false;
     });   
-    this.buildCards(filterdata);
+    this.buildCards(filterdata, this.model.vocabulary, this.model.lang);
   }  
 
 
    filter() {
-
+    let tempdata = [];
+    document.querySelector('.ui.special.cards').innerHTML = '';
     document.querySelector('.prompt').value = '';
-
-    if(this.name == 'all' && this.checked == true) {
-      document.querySelector('.ui.special.cards').innerHTML = '';
-      this.buildCards(this.model.data); 
-      Array.from(document.querySelectorAll('input[type=checkbox]')).forEach(el => {
-        el.name != 'all' ? el.checked = false : false;
-      }); 
-    } else {
-    this.model.data.forEach(el=>{
-      document.querySelector('input[name=all]').checked = false;
-      for(let i = 0; i <  document.querySelectorAll('input:checked').length; i++) {
-        if(el.type ==  document.querySelectorAll('input:checked')[i].name) {
+    Array.from(document.querySelectorAll('input:checked')).forEach(input => {
+      this.model.data.forEach(el=>{
+        if(el.type == input.value) {
           tempdata.push(el);
+          this.view.renderCard(el, this.model.vocabulary, this.model.lang);
         }
-      }
+      });
     });
-      document.querySelector('.ui.special.cards').innerHTML = '';
-      AnimalController.buildCards(tempdata); 
+    this.model.dataForSearch = tempdata;
+    this.model.prepareSearchData();
+
+    if(document.querySelectorAll('input:checked').length == 0) {
+      this.model.dataForSearch = this.model.getData();
+      this.buildCards(this.model.getData(), this.model.vocabulary, this.model.lang);
+      this.model.prepareSearchData();
     }
-    return tempdata;
   }
 
 
+  renderFilters() {
+    let types = [];
+    this.model.data.forEach(el=>{
+      if(!types.includes(el.type)) {
+        types.push(el.type);
+      }
+    });
+    this.view.renderFilters(types, this.model.vocabulary, this.model.lang);
+  }
+
+
+  showHistory(){
+    this.view.renderHistory(this.model.history)
+    $('.ui.longer.modal.history').modal('show');
+  }
+
+  
   signOut() {
     $('.ui.basic.test.modal').modal({
       closable  : true,
@@ -180,10 +171,13 @@ export default class AnimalController {
   clear() {
     localStorage.removeItem('cart');
     localStorage.removeItem('data');
+    localStorage.removeItem('history');
+    localStorage.removeItem('vocabulary');
     document.querySelector('.ui.special.cards').innerHTML = '';
     this.model.getAnimals();
     document.querySelector('.prompt').value = '';
-    this.buildCards(this.model.data);
+    this.buildCards(this.model.data, this.model.vocabulary, this.model.lang);
+    this.refreshCartIcon();
   }
 
   
@@ -200,8 +194,8 @@ export default class AnimalController {
     localStorage.data = JSON.stringify(this.model.data);
     localStorage.removeItem('cart');
     document.querySelector('.ui.special.cards').innerHTML = '';
-    this.buildCards(this.model.data); 
-
+    this.buildCards(this.model.data, this.model.vocabulary, this.model.lang); 
+    this.refreshCartIcon();
   }
 
 } 
