@@ -1,0 +1,16 @@
+{
+  "baccarat": {
+    "balance": "Баланс",
+    "chipSettings": "Фишки",
+    "transReport": "Репорт",
+    "actDetails": "детали",
+    "baccaratGuides": "правила",
+    "play": "Играть",
+    "banker": "Банкир",
+    "player": "Игрок",
+    "tie": "Ничья",
+    "total": "Сумма",
+    "tables": "Столы",
+    "totalBet": "Сумма ставки"
+  }
+}
