@@ -23,22 +23,10 @@
             margin-left: auto;
             margin-right: auto;
             top: 530px;
-            left: 0;
+            left: 20px;
             right: 0;
             text-align: center;
         }
-
-        /* /* @media screen and (max-width: 1366px) {
-            .content {
-                top: 50%;
-            }
-        } */
-
-        @media screen and (max-width: 1024px) {
-            .content {
-                top: 430px;
-            }
-        } 
 
         h3 {
             max-width: 875px;
@@ -72,30 +60,14 @@
             background-color: #c08d4a;
         }
 
-        img.main {
+        .img-main {
             width: 100%;
         }
 
-        .mainSecondary, .img-logo {
+        .img-main-secondary, .img-logo {
             display: none;
         }
 
-        @media screen and (max-width: 1366px) {
-            .main {
-                display: none;
-            }
-
-            .mainSecondary, .img-logo {
-                display: block;
-            }
-
-            .img-logo {
-                width: 20%;
-                margin-left: auto;
-                margin-right: auto;
-                margin-top: -8%;
-            }
-        }
 
         .glitch {
             max-width: 739px;
@@ -108,11 +80,71 @@
             margin-right: auto;
         }
 
+        @media screen and (max-width: 1366px) {
+            .img-main {
+                display: none;
+            }
+
+            .img-main-secondary, .img-logo {
+                display: block;
+            }
+
+            .img-logo {
+                width: 20%;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: -8%;
+            }
+
+            .glith {
+                max-width: 500px;
+            }
+
+            .content {
+                top: 500px;
+            }
+        }
+
+        
+        @media screen and (max-width: 1024px) {
+            .content {
+                top: 430px;
+            }
+        } 
+
+        @media screen and (max-width: 768px) {
+            .glitch {
+                width: 70%;
+            }
+
+            .img-logo {
+                width: 30%;
+            }
+        } 
+
+        @media screen and (max-width: 580px) {
+            .img-main-secondary {
+                width: 120%;
+                margin-left: -10%;
+            }
+
+            .img-logo {
+                width: 40%;
+            }
+
+            .content {
+                padding: 10px;
+                top: 375px;
+            }
+        } 
+
+        
+
     </style>
 </head>
 <body>
-    <img class="main" src="./img/LaNDING3.png">
-    <img class="mainSecondary" src="./img/xc.png">
+    <img class="img-main" src="./img/LaNDING3.png">
+    <img class="img-main-secondary" src="./img/xc.png">
     <img class="img-logo" src="./img/logo.png">
     <section class="content">
         <h3><b>เว็บไซต์ชั้นนำแห่งเอเชีย พร้อมไปด้วยความบันเทิงอย่างเต็มรูปแบบ ทั้งเกมไพ่ เกมสล็อต เกมยิงปลา เกมอื่นๆ  ฟุตบอล  ห้วย และเกมอิกเยอะมากม้าย.. เรามีบริการให้คุณครบวงจร
