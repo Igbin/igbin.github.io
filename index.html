@@ -40,6 +40,7 @@
             margin-right: auto;
             margin-left: auto;
             font-size: 2vh;
+            font-family: ItimRegular;
         }
 
         .buttons {
@@ -72,7 +73,7 @@
             width: 100%;
         }
 
-        .img-main-secondary, .img-logo {
+        .img-main-secondary, .img-logo, .img-mob-top {
             display: none;
         }
 
@@ -110,7 +111,7 @@
                 margin-top: -8%;
             }
 
-            .glith {
+            .glitch {
                 max-width: 500px;
             }
 
@@ -133,7 +134,7 @@
             }
 
             .img-logo {
-                width: 30%;
+                width: 20%;
             }
         } 
 
@@ -176,28 +177,54 @@
             }
 
             .img-main-secondary {
+                display: none;
+            }
+
+            .img-mob-top {
+                display: block;
                 width: 100%;
                 margin-left: 0;
             }
 
             .img-logo {
-                width: 40%;
-                margin-right: 30%;
+                display: none;
             }
 
             .content {
                 top: 180px;
-                left: 5px;
+                left: 0;
+            }
+
+            .content h3 {
+                width: 65%;
+                margin-top: 55px;
+                line-height: 1.3;
+            }
+
+            .buttons {
+                display: block;
+            }
+
+            .buttons a {
+                display: inline-block;
+                margin-top: 10px;
+                font-size: 2vh;
+            }
+        } 
+
+        @media screen and (max-height: 680px) and (min-width: 580px) {
+            .glitch {
+                width: 70%;
+            }
+
+            .content {
+                top: 250px;
             }
         } 
 
         @media screen and (max-height: 380px) {
             .glitch {
                 display: none;
-            }
-
-            .content {
-                top: 250px;
             }
         } 
 
@@ -207,12 +234,21 @@
                 margin-top: -18%;
             }
         } 
+        
+        @font-face {
+            font-family: "ItimRegular"; 
+            src: url("./fonts/Itim-Regular.ttf") format("truetype"); 
+            font-style: normal; 
+            font-weight: normal; 
+        } 
+			
     </style>
 </head>
 <body>
     <img class="img-main" src="./img/LaNDING3.png">
     <img class="img-main-secondary" src="./img/xc.png">
     <img class="img-logo" src="./img/logo.png">
+    <img class="img-mob-top" src="./img/BG-main-mob.png">"
     <section class="content">
         <h3><b>เว็บไซต์ชั้นนำแห่งเอเชีย พร้อมไปด้วยความบันเทิงอย่างเต็มรูปแบบ ทั้งเกมไพ่ เกมสล็อต เกมยิงปลา เกมอื่นๆ  ฟุตบอล  ห้วย และเกมอิกเยอะมากม้าย.. เรามีบริการให้คุณครบวงจร
             สล็อตค่าย ( JDB, JILI, JOKER, FC, RSG, CQ9, KA, P, PS  และอื่นๆ..)
