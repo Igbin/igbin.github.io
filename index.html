@@ -65,7 +65,7 @@
             font-size: 3vh;
             text-align: center;
             padding: 5px;
-            margin-left: 15px;
+            margin-left: 10px;
             cursor: pointer;
             font-weight: bold;
             text-decoration: none;
@@ -156,7 +156,7 @@
 
             .content {
                 padding-top: 0;
-                margin-top: -90px;
+                margin-top: -75px;
             }
 
             .content h3 {
@@ -171,8 +171,8 @@
             .buttons a {
                 display: inline-block;
                 margin-top: 10px;
+                margin-left: 0px;
                 font-size: 2vh;
-                padding: 2px;
             }
 
             .buttons a:first-child {
@@ -183,6 +183,13 @@
                display: none;
             }
         } 
+
+        @media screen and (max-width: 420px) and (min-height: 800px) {
+            .content {
+                margin-top: -100px;
+                padding: 2px;
+            }
+        }
 
         @media screen and (max-height: 380px) {
             .glitch {
