@@ -190,17 +190,20 @@
         } 
 
         @media screen and (max-width: 420px) and (min-height: 800px) {
+
+            .content {
+                margin-top: -100px;
+                padding: 2px;
+            }
+        }
+
+        @media screen and (max-width: 420px) and (min-height: 800px) and (-webkit-device-pixel-ratio : 3) {
             .wrapper {
                 background-size: cover;
             }
 
             .buttons a {
                 margin-left: 5px;
-            }
-
-            .content {
-                margin-top: -100px;
-                padding: 2px;
             }
         }
 
