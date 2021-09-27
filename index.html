@@ -89,7 +89,12 @@
         }
 
         .img-logos {
+            width: 95%;
             margin-top: 30px;
+        }
+
+        .img-logos-mob {
+            display: none;
         }
 
         @media screen and (min-width: 1280px) {
@@ -148,8 +153,14 @@
                 margin-left: 0;
             }
 
-            .img-logo {
+            .img-logo, .img-logos {
                 display: none;
+            }
+
+            .img-logos-mob {
+                width: 95%;
+                margin: 10px auto 20%;
+                display: block;
             }
 
             .content {
@@ -173,10 +184,6 @@
                 font-size: 2vh;
             }
 
-            .baner-space {
-                height: 170px;
-            }
-
             .glitch {
                display: none;
             }
@@ -189,7 +196,7 @@
             }
         }
 
-        @media screen and (max-height: 380px) {
+        @media screen and (max-height: 415px) {
             .glitch {
                 display: none;
             }
@@ -237,6 +244,7 @@
         </div>
         <div class="bottom">
             <img class="img-logos" src="./img/LOGOS.png">
+            <img class="img-logos-mob" src="./img/LOGOS_mob.png">
             <img class="glitch" src="./img/glitch.png">
         </div>
     </div>
